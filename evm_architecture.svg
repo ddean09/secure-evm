@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1290 880" width="1290" height="880" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f5fa8"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker>
+    <style>
+      .t  { font-size: 13px; fill: #222; }
+      .s  { font-size: 11.5px; fill: #333; }
+      .h  { font-size: 14px; font-weight: bold; fill: #111; }
+      .hr { font-size: 14px; font-weight: bold; fill: #a5281b; }
+      .sr { font-size: 11.5px; fill: #7a1d13; }
+      .m  { font-family: "DejaVu Sans Mono", Menlo, monospace; font-size: 11px; fill: #444; }
+      .key{ font-size: 11px; fill: #666; font-style: italic; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1290" height="880" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="645" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#111">E2E-Verifiable EVM: Homomorphic ElGamal + Zero-Knowledge Proofs</text>
+
+  <!-- ===== Setup ===== -->
+  <rect x="440" y="58" width="400" height="62" rx="8" fill="#f2f2f2" stroke="#777"/>
+  <text x="640" y="80" text-anchor="middle" class="h">Election setup  <tspan class="m">setup_election.py</tspan></text>
+  <text x="640" y="99" text-anchor="middle" class="s">ElGamal keypair (x, h = g^x) over 2048-bit RFC 3526 group</text>
+  <text x="640" y="114" text-anchor="middle" class="s">Schnorr signing keypair (sk_i, pk_i) for each voter</text>
+
+  <!-- key distribution (grey dashed) -->
+  <path d="M440,89 H150 V168" fill="none" stroke="#888" stroke-dasharray="5,4" marker-end="url(#ag)"/>
+  <text x="300" y="83" text-anchor="middle" class="key">sk_i, h → terminals</text>
+  <path d="M800,120 V148" fill="none" stroke="#888" stroke-dasharray="5,4" marker-end="url(#ag)"/>
+  <text x="808" y="139" class="key">registry {pk_i}, h</text>
+  <path d="M840,89 H1272 V370 H1252" fill="none" stroke="#888" stroke-dasharray="5,4" marker-end="url(#ag)"/>
+  <text x="1060" y="83" text-anchor="middle" class="key">secret x → trustee only</text>
+
+  <!-- ===== Voter terminals ===== -->
+  <g>
+    <rect x="40" y="170" width="220" height="60" rx="8" fill="#e8f0fb" stroke="#1f5fa8" stroke-width="1.5"/>
+    <text x="150" y="195" text-anchor="middle" class="h">Voter 1 terminal</text>
+    <text x="150" y="215" text-anchor="middle" class="m">voter.py 1 --port 6000</text>
+
+    <rect x="40" y="252" width="220" height="60" rx="8" fill="#e8f0fb" stroke="#1f5fa8" stroke-width="1.5"/>
+    <text x="150" y="277" text-anchor="middle" class="h">Voter 2 terminal</text>
+    <text x="150" y="297" text-anchor="middle" class="m">voter.py 2</text>
+
+    <rect x="40" y="334" width="220" height="60" rx="8" fill="#e8f0fb" stroke="#1f5fa8" stroke-width="1.5"/>
+    <text x="150" y="359" text-anchor="middle" class="h">Voter 3 terminal</text>
+    <text x="150" y="379" text-anchor="middle" class="m">voter.py 3</text>
+
+    <rect x="40" y="416" width="220" height="60" rx="8" fill="#e8f0fb" stroke="#1f5fa8" stroke-width="1.5"/>
+    <text x="150" y="441" text-anchor="middle" class="h">Voter 4 terminal</text>
+    <text x="150" y="461" text-anchor="middle" class="m">voter.py 4</text>
+
+    <rect x="40" y="498" width="220" height="60" rx="8" fill="#e8f0fb" stroke="#1f5fa8" stroke-width="1.5"/>
+    <text x="150" y="523" text-anchor="middle" class="h">Voter 5 terminal</text>
+    <text x="150" y="543" text-anchor="middle" class="m">voter.py 5</text>
+  </g>
+  <!-- voters into ballot pipeline -->
+  <g stroke="#1f5fa8" stroke-width="1.4" fill="none" marker-end="url(#ab)">
+    <path d="M260,200 H298"/><path d="M260,282 H298"/><path d="M260,364 H298"/>
+    <path d="M260,446 H298"/><path d="M260,528 H298"/>
+  </g>
+
+  <!-- ===== Ballot construction (client side) ===== -->
+  <rect x="300" y="150" width="225" height="440" rx="10" fill="#f7faff" stroke="#1f5fa8" stroke-dasharray="6,3"/>
+  <text x="412" y="172" text-anchor="middle" class="h">Inside each terminal</text>
+  <text x="412" y="189" text-anchor="middle" class="s">(client-side ballot construction)</text>
+
+  <g>
+    <rect x="312" y="205" width="201" height="62" rx="6" fill="#fff" stroke="#9db8dc"/>
+    <text x="322" y="225" class="t" font-weight="bold">① Choose candidate j</text>
+    <text x="322" y="243" class="s">Alice / Bob / Carol</text>
+    <text x="322" y="259" class="s">→ one-hot vector, e.g. (0, 1, 0)</text>
+
+    <rect x="312" y="277" width="201" height="62" rx="6" fill="#fff" stroke="#9db8dc"/>
+    <text x="322" y="297" class="t" font-weight="bold">② Homomorphic encrypt</text>
+    <text x="322" y="315" class="s">per candidate, fresh random r:</text>
+    <text x="322" y="331" class="m">Enc(m) = (g^r, g^m·h^r)</text>
+
+    <rect x="312" y="349" width="201" height="62" rx="6" fill="#fff" stroke="#9db8dc"/>
+    <text x="322" y="369" class="t" font-weight="bold">③ Zero-knowledge proofs</text>
+    <text x="322" y="387" class="s">each Enc ∈ {0,1}  (disjunctive CP)</text>
+    <text x="322" y="403" class="s">Σ Enc = 1  (Chaum–Pedersen)</text>
+
+    <rect x="312" y="421" width="201" height="62" rx="6" fill="#fff" stroke="#9db8dc"/>
+    <text x="322" y="441" class="t" font-weight="bold">④ Fiat–Shamir binding</text>
+    <text x="322" y="459" class="s">challenges hash in</text>
+    <text x="322" y="475" class="s">(election_id, voter_id)</text>
+
+    <rect x="312" y="493" width="201" height="62" rx="6" fill="#fff" stroke="#9db8dc"/>
+    <text x="322" y="513" class="t" font-weight="bold">⑤ Schnorr signature</text>
+    <text x="322" y="531" class="s">sign(sk_i, ballot) for</text>
+    <text x="322" y="547" class="s">authentication + integrity</text>
+  </g>
+
+  <!-- ===== Network ===== -->
+  <rect x="545" y="150" width="195" height="440" rx="10" fill="#fafafa" stroke="#bbb"/>
+  <text x="642" y="172" text-anchor="middle" class="h">localhost network</text>
+  <text x="642" y="189" text-anchor="middle" class="s">JSON over TCP (127.0.0.1)</text>
+
+  <!-- Eve proxy (attack 1) -->
+  <rect x="560" y="250" width="165" height="82" rx="8" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="642" y="272" text-anchor="middle" class="hr">Eavesdropper</text>
+  <text x="642" y="290" text-anchor="middle" class="m">attack1 proxy :6000</text>
+  <text x="642" y="307" text-anchor="middle" class="sr">copies every ballot,</text>
+  <text x="642" y="322" text-anchor="middle" class="sr">forwards to :5000</text>
+  <!-- voter 1 path through Eve -->
+  <path d="M525,228 H540 V291 H558" fill="none" stroke="#1f5fa8" stroke-width="1.4" stroke-dasharray="6,3" marker-end="url(#ab)"/>
+  <path d="M725,291 H758" fill="none" stroke="#1f5fa8" stroke-width="1.4" stroke-dasharray="6,3" marker-end="url(#ab)"/>
+  <text x="642" y="238" text-anchor="middle" class="s" fill="#1f5fa8">voter 1 → :6000</text>
+
+  <!-- direct path for voters 2-5 -->
+  <path d="M525,470 H758" fill="none" stroke="#1f5fa8" stroke-width="2.2" marker-end="url(#ab)"/>
+  <text x="642" y="440" text-anchor="middle" class="s">voters 2–5 → :5000</text>
+  <text x="642" y="459" text-anchor="middle" class="m">{ciphertexts, proofs,</text>
+  <text x="642" y="488" text-anchor="middle" class="m">sum_proof, signature}</text>
+
+  <!-- ===== Server ===== -->
+  <rect x="760" y="150" width="270" height="440" rx="10" fill="#eaf6ee" stroke="#1e8449" stroke-width="1.5"/>
+  <text x="895" y="172" text-anchor="middle" class="h">Election server  <tspan class="m">server.py :5000</tspan></text>
+  <text x="895" y="189" text-anchor="middle" class="s">verifies — never decrypts a single ballot</text>
+  <g>
+    <rect x="772" y="200" width="246" height="42" rx="5" fill="#fff" stroke="#8fc9a3"/>
+    <text x="782" y="218" class="t">1  Voter ID in registry</text>
+    <text x="782" y="234" class="s">blocks unknown voters</text>
+
+    <rect x="772" y="250" width="246" height="42" rx="5" fill="#fff" stroke="#8fc9a3"/>
+    <text x="782" y="268" class="t">2  Schnorr signature valid</text>
+    <text x="782" y="284" class="s">blocks forgery / in-transit tampering</text>
+
+    <rect x="772" y="300" width="246" height="42" rx="5" fill="#fff" stroke="#8fc9a3"/>
+    <text x="782" y="318" class="t">3  Ciphertexts in order-q subgroup</text>
+    <text x="782" y="334" class="s">blocks small-subgroup tricks</text>
+
+    <rect x="772" y="350" width="246" height="42" rx="5" fill="#fff" stroke="#8fc9a3"/>
+    <text x="782" y="368" class="t">4  ZK: every Enc ∈ {0, 1}</text>
+    <text x="782" y="384" class="s">blocks stuffing / negative votes</text>
+
+    <rect x="772" y="400" width="246" height="42" rx="5" fill="#fff" stroke="#8fc9a3"/>
+    <text x="782" y="418" class="t">5  ZK: Σ Enc = 1</text>
+    <text x="782" y="434" class="s">blocks over-voting</text>
+
+    <rect x="772" y="450" width="246" height="42" rx="5" fill="#fff" stroke="#8fc9a3"/>
+    <text x="782" y="468" class="t">6  One ballot per voter</text>
+    <text x="782" y="484" class="s">blocks replay / double voting</text>
+
+    <rect x="772" y="500" width="246" height="42" rx="5" fill="#d4efdd" stroke="#1e8449"/>
+    <text x="782" y="518" class="t" font-weight="bold">7  Homomorphic tally</text>
+    <text x="782" y="534" class="m">Π Enc(m_i) = Enc(Σ m_i)</text>
+  </g>
+  <text x="895" y="570" text-anchor="middle" class="sr">any check fails → REJECTED + reason</text>
+
+  <!-- ===== Right column ===== -->
+  <rect x="1065" y="170" width="185" height="100" rx="8" fill="#fff8e1" stroke="#b7950b"/>
+  <text x="1157" y="194" text-anchor="middle" class="h">Bulletin board</text>
+  <text x="1157" y="214" text-anchor="middle" class="s">public list of accepted</text>
+  <text x="1157" y="230" text-anchor="middle" class="s">encrypted ballots + receipts</text>
+  <text x="1157" y="252" text-anchor="middle" class="s">(voters verify inclusion)</text>
+  <path d="M1030,221 H1063" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#ak)"/>
+
+  <rect x="1065" y="320" width="185" height="100" rx="8" fill="#fff3e0" stroke="#ca6f1e"/>
+  <text x="1157" y="344" text-anchor="middle" class="h">Trustee</text>
+  <text x="1157" y="364" text-anchor="middle" class="s">holds secret x</text>
+  <text x="1157" y="382" text-anchor="middle" class="s">decrypts the AGGREGATE</text>
+  <text x="1157" y="398" text-anchor="middle" class="s">ciphertext only</text>
+  <path d="M1030,521 H1046 V380 H1063" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#ak)"/>
+  <text x="1050" y="455" class="key" transform="rotate(-90 1050 455)" text-anchor="middle">Enc(Σ)</text>
+
+  <rect x="1065" y="470" width="185" height="110" rx="8" fill="#eaf6ee" stroke="#1e8449" stroke-width="1.5"/>
+  <text x="1157" y="494" text-anchor="middle" class="h">Final result</text>
+  <text x="1080" y="516" class="m">Alice  n_A</text>
+  <text x="1080" y="534" class="m">Bob    n_B</text>
+  <text x="1080" y="552" class="m">Carol  n_C</text>
+  <text x="1157" y="572" text-anchor="middle" class="s">individual votes stay secret</text>
+  <path d="M1157,420 V468" fill="none" stroke="#333" stroke-width="1.4" marker-end="url(#ak)"/>
+
+  <!-- ===== Attacks ===== -->
+  <text x="40" y="630" class="hr" font-size="15">Simulated attacks</text>
+
+  <rect x="40" y="645" width="400" height="160" rx="8" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="55" y="668" class="hr">A1 · Eavesdropping (privacy)</text>
+  <text x="55" y="686" class="m">attacks/attack1_eavesdrop.py</text>
+  <text x="55" y="708" class="sr">• read the packet → only ciphertexts visible</text>
+  <text x="55" y="725" class="sr">• dictionary attack: re-encrypt all votes → 0 matches</text>
+  <text x="55" y="742" class="sr">• brute-force x (10⁶ guesses) → infeasible, ~2^2047</text>
+  <text x="55" y="759" class="sr">• inspect ZK proofs → both branches verify</text>
+  <text x="55" y="784" class="s" font-weight="bold">Defended by: randomized ElGamal (IND-CPA),</text>
+  <text x="55" y="799" class="s" font-weight="bold">discrete-log hardness, zero-knowledge</text>
+
+  <rect x="460" y="645" width="380" height="160" rx="8" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="475" y="668" class="hr">A2 · Malicious terminal (integrity)</text>
+  <text x="475" y="686" class="m">attacks/attack2_malicious_ballot.py</text>
+  <text x="475" y="708" class="sr">• ballot stuffing: Enc(10) for Alice</text>
+  <text x="475" y="725" class="sr">• over-voting: Enc(1) for Alice AND Bob</text>
+  <text x="475" y="742" class="sr">• negative vote: Enc(4), Enc(−3) (sum still 1)</text>
+  <text x="475" y="759" class="sr">• impersonation: sign as voter1 with fake key</text>
+  <text x="475" y="784" class="s" font-weight="bold">Defended by: checks 4 and 5 (ZK proofs),</text>
+  <text x="475" y="799" class="s" font-weight="bold">checks 1 and 2 (registry + signature)</text>
+
+  <rect x="860" y="645" width="390" height="160" rx="8" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="875" y="668" class="hr">A3 · Replay / tamper / copy (active)</text>
+  <text x="875" y="686" class="m">attacks/attack3_replay_tamper.py</text>
+  <text x="875" y="708" class="sr">• replay a captured ballot unchanged</text>
+  <text x="875" y="725" class="sr">• vote flip via malleability: E_A·g⁻¹, E_B·g</text>
+  <text x="875" y="742" class="sr">• copy voter1's ballot, re-sign as voter5</text>
+  <text x="875" y="759" class="sr">  (uses ballots captured by A1 / bulletin board)</text>
+  <text x="875" y="784" class="s" font-weight="bold">Defended by: check 6 (one vote), check 2</text>
+  <text x="875" y="799" class="s" font-weight="bold">(signature), Fiat–Shamir voter_id binding</text>
+
+  <!-- attack arrows -->
+  <path d="M240,645 V610 H552 V318 H558" fill="none" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="7,4" marker-end="url(#ar)"/>
+  <path d="M820,645 V592" fill="none" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="7,4" marker-end="url(#ar)"/>
+  <path d="M960,645 V592" fill="none" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="7,4" marker-end="url(#ar)"/>
+
+  <!-- ===== Legend ===== -->
+  <g transform="translate(40,838)">
+    <line x1="0" y1="0" x2="40" y2="0" stroke="#1f5fa8" stroke-width="2.2" marker-end="url(#ab)"/>
+    <text x="50" y="4" class="s">encrypted ballot flow</text>
+    <line x1="210" y1="0" x2="250" y2="0" stroke="#888" stroke-dasharray="5,4" marker-end="url(#ag)"/>
+    <text x="260" y="4" class="s">key distribution (one-time setup)</text>
+    <line x1="490" y1="0" x2="530" y2="0" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="7,4" marker-end="url(#ar)"/>
+    <text x="540" y="4" class="s">attack point</text>
+    <line x1="660" y1="0" x2="700" y2="0" stroke="#333" stroke-width="1.4" marker-end="url(#ak)"/>
+    <text x="710" y="4" class="s">server-side data flow</text>
+  </g>
+</svg>
